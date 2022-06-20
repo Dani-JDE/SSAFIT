@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.web.model.dao.ChatDao">
+
+	<resultMap type="chat" id="chatMap">
+		<id column="id" property="id" />
+		<result column="uid" property="uid" />
+		<result column="writer" property="writer" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+		<result column="chat_type" property="type" />
+		<result column="profile" property="profile" />
+	</resultMap>
+	
+	<select id="selectAll" resultMap="chatMap">
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, user.profile FROM chat JOIN user on chat.uid = user.id;
+	</select>
+	
+	<select id="selectById" parameterType="int" resultMap="chatMap">
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, user.profile 
+		FROM chat JOIN user on chat.uid = user.id
+		WHERE chat.id >= #{id};
+	</select>
+	
+	<update id="deleteChat" parameterType="int">
+		UPDATE chat SET 
+		content = "삭제된 메세지입니다.", type = 2
+		WHERE id = #{id};
+	</update>
+	
+	<insert id="insertChat" parameterType="chat">
+		INSERT INTO chat (uid, writer, content, reg_date, chat_type, profile)
+		VALUE
+		(#{uid}, #{writer}, #{content} , NOW(), #{type}, 0);
+		
+	</insert>
+	
+
+	
+
+</mapper>

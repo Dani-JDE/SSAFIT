@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.web.model.dao.UserDao">
+	<insert id="insert">
+		INSERT INTO user(userid, nickname, pw, email) VALUES(#{userid}, #{nickname}, #{pw}, #{email})
+	</insert>
+	<update id="update">
+		UPDATE user SET
+  		nickname = #{nickname},
+  		pw = #{pw},
+  		email = #{email},
+  		profile = #{profile}
+  		WHERE id = #{id}
+	</update>
+	<delete id="delete" parameterType="int">
+  		DELETE FROM user WHERE id = #{id}
+	</delete>
+	<select id="selectOneById" resultType="user" parameterType="String">
+		SELECT * FROM user WHERE userid LIKE #{userid}
+	</select>
+	<select id="selectOneByEmail" resultType="user" parameterType="String">
+		SELECT * FROM user WHERE email LIKE #{email}
+	</select>
+	<select id="selectAll" resultType="user">
+		SELECT * FROM user
+	</select>
+	<select id="idDuplicateCheck" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM user WHERE userid = #{userid}
+	</select>
+	<select id="emailDuplicateCheck" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM user WHERE email = #{email}
+	</select>
+	<select id="selectIdByUserid" resultType="int" parameterType="String">
+		SELECT id FROM user WHERE userid LIKE #{userid}
+	</select>
+</mapper>
